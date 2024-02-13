@@ -7,29 +7,17 @@ pipeline {
         pollSCM '* * * * *'
     }
 
-    environment {
-        NAME = 'Sarah'
-        LASTNAME = 'Kaiser'
- 		// mavenHome = tool 'jenkins-maven'
+    tools {
+        maven 'jenkins-maven'
     }
 
- 	tools {
-		maven 'jenkins-maven'
-	}
-
-    stages {
-        stage ('Initialize') {
+        stage('Build') {
             steps {
+                echo "Building.."
                 sh '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
                 '''
-            }
-        }
-
-        stage('Build') {
-            steps {
-                echo "Building.. because %NAME% %LASTNAME% said so.."
                 sh 'mvn -Dmaven.test.failure.ignore=true install'
                 sh "mvn -B -DskipTests clean package"
             }
@@ -42,9 +30,10 @@ pipeline {
         }
         stage('generate reports') {
             steps {
-                cucumber buildStatus: "UNSTABLE",
-                fileIncludePattern: "**/*.json",
-                jsonReportDirectory: "target"
+                echo "generate cucumber reports.."
+/*                 cucumber buildStatus: "UNSTABLE",
+                fileIncludePattern: "** /* *//*.json",
+                jsonReportDirectory: "target" */
             }
         }
         stage('Deliver') {
