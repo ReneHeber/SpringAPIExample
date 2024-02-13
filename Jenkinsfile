@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label 'docker-agent-alpine-jdk17'
+    }
 
     triggers {
         pollSCM '* * * * *'
@@ -19,18 +21,20 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Building.. because %NAME% %LASTNAME% said so.."
-                sh '''
-                echo "placeholder for %NAME%"
-                '''
-// 				mvn clean install -DskipTests
+                sh "mvn -B -DskipTests clean package"
             }
         }
         stage('Test') {
             steps {
                 echo "Testing.."
-                sh '''
-                echo "doing test stuff.."
-                '''
+                sh "mvn test"
+            }
+        }
+        stage('generate reports') {
+            steps {
+                cucumber buildStatus: "UNSTABLE",
+                fileIncludePattern: "**/*.json",
+                jsonReportDirectory: "target"
             }
         }
         stage('Deliver') {
