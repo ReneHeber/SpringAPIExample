@@ -4,7 +4,7 @@ pipeline {
     }
 
     triggers {
-        pollSCM '* * * * *'
+        pollSCM '*/5 * * * *'
     }
 
     tools {
@@ -28,12 +28,6 @@ pipeline {
             steps {
                 echo "Testing.."
                 sh "mvn test"
-            }
-        }
-
-        stage('generate reports') {
-            steps {
-                echo "generate cucumber reports.."
             }
         }
 
