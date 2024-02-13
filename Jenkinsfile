@@ -11,6 +11,7 @@ pipeline {
         maven 'jenkins-maven'
     }
 
+    stages {
         stage('Build') {
             steps {
                 echo "Building.."
@@ -30,16 +31,13 @@ pipeline {
             }
         }
 
-/*        stage('generate reports') {
+        stage('generate reports') {
             steps {
                 echo "generate cucumber reports.."
-                 cucumber buildStatus: "UNSTABLE",
-                fileIncludePattern: "** /* *//*.json",
-                jsonReportDirectory: "target"
             }
-        }*/
+        }
 
-/*         stage('Deliver') {
+         stage('Deliver') {
             steps {
                 retry(3) {
                     echo 'Deliver....'
@@ -49,6 +47,7 @@ pipeline {
                 }
             }
         }
+    }
 
     post {
         always {
@@ -63,5 +62,6 @@ pipeline {
         unstable {
             echo "I will be executed if the build is unstable"
         }
-    } */
+    }
+
 }
