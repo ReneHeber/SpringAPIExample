@@ -22,12 +22,14 @@ pipeline {
                 sh "mvn -B -DskipTests clean package"
             }
         }
+
         stage('Test') {
             steps {
                 echo "Testing.."
                 sh "mvn test"
             }
         }
+
         stage('generate reports') {
             steps {
                 echo "generate cucumber reports.."
@@ -36,6 +38,7 @@ pipeline {
                 jsonReportDirectory: "target" */
             }
         }
+
         stage('Deliver') {
             steps {
                 retry(3) {
@@ -46,7 +49,7 @@ pipeline {
                 }
             }
         }
-    }
+
     post {
         always {
             echo "I will always get executed"
