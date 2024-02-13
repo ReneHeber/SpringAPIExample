@@ -10,17 +10,27 @@ pipeline {
     environment {
         NAME = 'Sarah'
         LASTNAME = 'Kaiser'
- 		mavenHome = tool 'jenkins-maven'
+ 		// mavenHome = tool 'jenkins-maven'
     }
 
-/* 	tools {
-		jdk 'java-17'
-	} */
+ 	tools {
+		maven 'jenkins-maven'
+	}
 
     stages {
+        stage ('Initialize') {
+            steps {
+                sh '''
+                    echo "PATH = ${PATH}"
+                    echo "M2_HOME = ${M2_HOME}"
+                '''
+            }
+        }
+
         stage('Build') {
             steps {
                 echo "Building.. because %NAME% %LASTNAME% said so.."
+                sh 'mvn -Dmaven.test.failure.ignore=true install'
                 sh "mvn -B -DskipTests clean package"
             }
         }
