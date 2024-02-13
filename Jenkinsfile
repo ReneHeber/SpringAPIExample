@@ -10,7 +10,7 @@ pipeline {
     environment {
         NAME = 'Sarah'
         LASTNAME = 'Kaiser'
-// 		mavenHome = tool 'jenkins-maven'
+ 		mavenHome = tool 'jenkins-maven'
     }
 
 /* 	tools {
