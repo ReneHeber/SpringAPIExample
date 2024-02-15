@@ -1,4 +1,4 @@
-package karate.api;
+package karate;
 
 import com.example.springapiexample.SpringApiExampleApplication;
 import com.intuit.karate.junit5.Karate;
